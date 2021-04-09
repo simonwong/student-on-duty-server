@@ -5,20 +5,19 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { UsersModule } from './users/users.module'
 import { DutiesModule } from './duties/duties.module'
 
-import config from '../config'
-
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [config],
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configServices: ConfigService) => {
-        const { ip, port, database, user, password } = configServices.get(
-          'DATABASE_CONFIG',
-        )
+        const ip = configServices.get('DB_IP')
+        const port = configServices.get('DB_PORT')
+        const database = configServices.get('DB_DATABASE')
+        const user = configServices.get('DB_USER')
+        const password = configServices.get('DB_PASSWORD')
         return {
           uri: `mongodb://${user}:${password}@${ip}:${port}/${database}?authSource=admin`,
         }

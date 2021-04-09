@@ -22,7 +22,7 @@ pipeline {
         sh "docker build -t ${IMG_NAME} -f Dockerfile ."
         sh "docker run -d \
             -p 7405:3000 \
-            -v /usr/local/config_center/student_on_duty/production.ts:/code/config/production.ts \
+            -v /usr/local/config_center/student_on_duty/.env:/code/.env \
             --name ${CONTAINER_NAME} \
             ${IMG_NAME}"
       }
